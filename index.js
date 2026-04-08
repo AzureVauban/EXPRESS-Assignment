@@ -1,7 +1,7 @@
 // Run in terminal: npm init -y && npm install express
 const express = require("express");
 const app = express();
-const PORT = 3003;
+const PORT = 3000;
 
 app.use(express.json());
 
@@ -84,9 +84,21 @@ let books = [
   },
 ];
 
-//? Implement GET /books to retrieve all books [5]
+//? Implement GET /books to retrieve books with optional avail filter [5]
 app.get("/books", (req, res) => {
-  res.status(200).json(books);
+  const avail = req.query.avail;
+
+  if (avail === "true") {
+    const availBooks = books.filter((b) => b.avail === true);
+    res.status(200).json(availBooks.map((b) => ({ id: b.id, title: b.title })));
+  } else if (avail === "false") {
+    const unavailBooks = books.filter((b) => b.avail === false);
+    res
+      .status(200)
+      .json(unavailBooks.map((b) => ({ id: b.id, title: b.title })));
+  } else {
+    res.status(200).json(books.map((b) => ({ id: b.id, title: b.title })));
+  }
 });
 
 //?Implement GET /books/:id to retrieve a specific book [5]
