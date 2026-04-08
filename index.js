@@ -1,14 +1,25 @@
+// Run in terminal: npm init -y && npm install express
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3003;
+const PORT = 3003;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("Hello from Express");
+// Add minimal CORS handler as specified [5]
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,PATCH,DELETE,OPTIONS",
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With",
+  );
+  if (req.method === "OPTIONS") res.sendStatus(200);
+  else next();
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
