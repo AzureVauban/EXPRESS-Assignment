@@ -84,95 +84,45 @@ let books = [
   },
 ];
 
-// GET /books - returns list of all books (title & id)
+//? Implement GET /books to retrieve all books [5]
 app.get("/books", (req, res) => {
-  const avail = req.query.avail;
-
-  if (avail === "true") {
-    // Return only available books
-    const availableBooks = books.filter((book) => book.avail === true);
-    res.json(
-      availableBooks.map((book) => ({ id: book.id, title: book.title })),
-    );
-  } else if (avail === "false") {
-    // Return only checked out books
-    const checkedOutBooks = books.filter((book) => book.avail === false);
-    res.json(
-      checkedOutBooks.map((book) => ({ id: book.id, title: book.title })),
-    );
-  } else {
-    // Return all books
-    res.json(books.map((book) => ({ id: book.id, title: book.title })));
-  }
+  res.status(200).json(books);
 });
 
-// GET /books/:id - returns all details for a specific book
+//?Implement GET /books/:id to retrieve a specific book [5]
 app.get("/books/:id", (req, res) => {
   const book = books.find((b) => b.id === req.params.id);
-  if (book) {
-    res.status(200).json(book);
-  } else {
-    res.status(404).json({ error: "Book not found" });
-  }
+  if (!book) return res.status(404).json({ error: "Book not found" });
+  res.status(200).json(book);
 });
 
-// POST /books - add a new book
+//? Implement POST /books to create a new book [5]
 app.post("/books", (req, res) => {
   const { id, title, author, publisher, isbn, avail, who, due } = req.body;
+  if (books.some((b) => b.id === id))
+    return res.status(403).json({ error: "Book already exists" });
 
-  // Check if book with this id already exists
-  if (books.find((b) => b.id === id)) {
-    res.status(403).json({ error: "Book with this id already exists" });
-    return;
-  }
-
-  const newBook = {
-    id: id || "",
-    title: title || "",
-    author: author || "",
-    publisher: publisher || "",
-    isbn: isbn || "",
-    avail: avail !== undefined ? avail : true,
-    who: who || "",
-    due: due || "",
-  };
-
+  const newBook = { id, title, author, publisher, isbn, avail, who, due };
   books.push(newBook);
   res.status(201).json(newBook);
 });
 
-// PUT /books/:id - update a book
+//?Implement PUT /books/:id to update a book [5]
 app.put("/books/:id", (req, res) => {
-  const book = books.find((b) => b.id === req.params.id);
+  const index = books.findIndex((b) => b.id === req.params.id);
+  if (index === -1) return res.status(404).json({ error: "Book not found" });
 
-  if (!book) {
-    res.status(404).json({ error: "Book not found" });
-    return;
-  }
-
-  // Update only the provided fields
-  if (req.body.title !== undefined) book.title = req.body.title;
-  if (req.body.author !== undefined) book.author = req.body.author;
-  if (req.body.publisher !== undefined) book.publisher = req.body.publisher;
-  if (req.body.isbn !== undefined) book.isbn = req.body.isbn;
-  if (req.body.avail !== undefined) book.avail = req.body.avail;
-  if (req.body.who !== undefined) book.who = req.body.who;
-  if (req.body.due !== undefined) book.due = req.body.due;
-
-  res.status(200).json(book);
+  books[index] = { ...books[index], ...req.body };
+  res.status(200).json(books[index]);
 });
 
-// DELETE /books/:id - delete a book
+//? Implement DELETE /books/:id to remove a book [5]
 app.delete("/books/:id", (req, res) => {
   const index = books.findIndex((b) => b.id === req.params.id);
-
-  if (index === -1) {
-    res.status(204).send();
-    return;
-  }
+  if (index === -1) return res.status(204).send();
 
   books.splice(index, 1);
-  res.status(200).json({ message: "Book deleted successfully" });
+  res.status(200).json({ message: "Book deleted" });
 });
 
 app.listen(PORT, () => {
