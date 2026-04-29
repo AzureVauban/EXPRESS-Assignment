@@ -1,0 +1,8 @@
+mixin booktable(books, URL)
+  table 
+    each book in books 
+      tr 
+        td #{book.id}
+        td #{book.title}
+        td 
+          a(href=URL + book.id) Check out

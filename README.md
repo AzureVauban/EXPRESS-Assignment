@@ -55,3 +55,6 @@ As you build the app, update this file with:
 - any assumptions you made from the assignment instructions
 
 This README should be the first place anyone looks to understand how to start and use your project.
+
+
+move/delete pug files as needed
