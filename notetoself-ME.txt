@@ -1,0 +1,13 @@
+# Requirements for Capstone Project (MERN)
+
+1. Use an Express Server Backend
+2. Use an REST FrontEnd
+3. Use ShadCN for the UI
+4. MongoDB Database (cannot resue the database, need to have 10 books preset)
+
+
+should be able to check out a book from the server
+should be able to add a book to the server
+
+
+IF YOU'RE ON THE PUG BRANCH IGNORE THIS FILE

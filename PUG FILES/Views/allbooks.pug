@@ -1,0 +1,7 @@
+extends base.pug
+include _booktable
+block append body 
+  h1 Here's all the books 
+  p table follows
+  +booktable(books,"http://localhost:3000/books/")
+  p that was the table 

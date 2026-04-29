@@ -1,0 +1,1 @@
+For 50 points extra credit (in the programs category), combine your Express Library book server with PUG templates to produce a fully working library interface requiring no client side html.
