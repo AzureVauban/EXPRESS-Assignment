@@ -43,17 +43,3 @@ Once the app is running, open your browser and visit:
 http://localhost:3000
 ```
 
-If the assignment uses API routes, test them with your browser, curl, or a tool like Postman.
-
-### 5. Update this README
-
-As you build the app, update this file with:
-
-- what routes you implemented
-- how to run the server
-- how to test the app
-- any assumptions you made from the assignment instructions
-
-This README should be the first place anyone looks to understand how to start and use your project.
-
-move/delete pug files as needed
